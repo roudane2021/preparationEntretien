@@ -1,6 +1,5 @@
-package com.roudane.preparationentretien.domain.user;
+package com.roudane.preparationentretien.entity;
 
-import com.roudane.preparationentretien.domain.order.Order;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,7 +27,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,5 +46,5 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    private List<Order> orders = new ArrayList<>();
+    private List<OrderEntity> orders = new ArrayList<>();
 }

@@ -1,6 +1,6 @@
 package com.roudane.preparationentretien.repository;
 
-import com.roudane.preparationentretien.domain.order.Order;
+import com.roudane.preparationentretien.entity.OrderEntity;
 import jakarta.annotation.Nonnull;
 import java.util.List;
 import java.util.Optional;
@@ -11,15 +11,15 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface OrderRepository extends JpaRepository<Order, Long> {
+public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
 
     @Nonnull
     @Override
     @EntityGraph(attributePaths = {"user", "orderLines"})
-    @Query("select o from Order o order by o.createdAt desc")
-    List<Order> findAll();
+    @Query("select o from OrderEntity o order by o.createdAt desc")
+    List<OrderEntity> findAll();
 
     @EntityGraph(attributePaths = {"user", "orderLines"})
-    @Query("select o from Order o where o.id = :id")
-    Optional<Order> findByIdWithDetails(@Param("id") Long id);
+    @Query("select o from OrderEntity o where o.id = :id")
+    Optional<OrderEntity> findByIdWithDetails(@Param("id") Long id);
 }

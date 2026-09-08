@@ -1,4 +1,4 @@
-package com.roudane.preparationentretien.domain.order;
+package com.roudane.preparationentretien.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,7 +23,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OrderLine {
+public class OrderLineEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +31,7 @@ public class OrderLine {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "order_id", nullable = false)
-    private Order order;
+    private OrderEntity order;
 
     @Column(nullable = false)
     private String productName;

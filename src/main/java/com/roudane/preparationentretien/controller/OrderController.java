@@ -1,7 +1,9 @@
 package com.roudane.preparationentretien.controller;
 
+import com.roudane.preparationentretien.domain.order.OrderDomain;
 import com.roudane.preparationentretien.dto.order.OrderRequest;
 import com.roudane.preparationentretien.dto.order.OrderResponse;
+import com.roudane.preparationentretien.mapper.OrderWebMapper;
 import com.roudane.preparationentretien.service.order.OrderService;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -22,21 +24,28 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrderController {
 
     private final OrderService orderService;
+    private final OrderWebMapper orderWebMapper;
 
     @GetMapping
     public ResponseEntity<List<OrderResponse>> getAllOrders() {
-        return ResponseEntity.ok(orderService.getAllOrders());
+        List<OrderResponse> orders = orderService.getAllOrders().stream()
+            .map(orderWebMapper::toResponse)
+            .toList();
+        return ResponseEntity.ok(orders);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<OrderResponse> getOrderById(@PathVariable Long id) {
-        return ResponseEntity.ok(orderService.getOrderById(id));
+        OrderDomain domain = orderService.getOrderById(id);
+        return ResponseEntity.ok(orderWebMapper.toResponse(domain));
     }
 
     @PostMapping
     public ResponseEntity<OrderResponse> createOrder(@Valid @RequestBody OrderRequest request) {
-        OrderResponse createdOrder = orderService.createOrder(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdOrder);
+        OrderDomain domainToCreate = orderWebMapper.toDomain(request);
+        domainToCreate.setUserId(request.userId());
+        OrderDomain createdDomain = orderService.createOrder(domainToCreate);
+        return ResponseEntity.status(HttpStatus.CREATED).body(orderWebMapper.toResponse(createdDomain));
     }
 
     @DeleteMapping("/{id}")
