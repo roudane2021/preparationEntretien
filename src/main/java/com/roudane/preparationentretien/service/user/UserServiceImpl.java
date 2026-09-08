@@ -1,11 +1,10 @@
 package com.roudane.preparationentretien.service.user;
 
-import com.roudane.preparationentretien.domain.user.User;
-import com.roudane.preparationentretien.dto.user.UserRequest;
-import com.roudane.preparationentretien.dto.user.UserResponse;
+import com.roudane.preparationentretien.domain.user.UserDomain;
+import com.roudane.preparationentretien.entity.UserEntity;
 import com.roudane.preparationentretien.exception.DuplicateResourceException;
 import com.roudane.preparationentretien.exception.ResourceNotFoundException;
-import com.roudane.preparationentretien.mapper.UserMapper;
+import com.roudane.preparationentretien.mapper.UserEntityMapper;
 import com.roudane.preparationentretien.repository.UserRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -18,47 +17,51 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final UserMapper userMapper;
+    private final UserEntityMapper userEntityMapper;
 
     @Override
     @Transactional
-    public UserResponse createUser(UserRequest request) {
-        if (userRepository.existsByEmail(request.email())) {
-            throw new DuplicateResourceException("Un utilisateur avec cet email existe déjà : " + request.email());
+    public UserDomain createUser(UserDomain userDomain) {
+        if (userRepository.existsByEmail(userDomain.getEmail())) {
+            throw new DuplicateResourceException("Un utilisateur avec cet email existe déjà : " + userDomain.getEmail());
         }
 
-        User user = userMapper.toEntity(request);
-        User savedUser = userRepository.save(user);
-        return userMapper.toResponse(savedUser);
+        UserEntity userEntity = userEntityMapper.toEntity(userDomain);
+        UserEntity savedEntity = userRepository.save(userEntity);
+        return userEntityMapper.toDomain(savedEntity);
     }
 
     @Override
-    public List<UserResponse> getAllUsers() {
+    public List<UserDomain> getAllUsers() {
         return userRepository.findAll().stream()
-            .map(userMapper::toResponse)
+            .map(userEntityMapper::toDomain)
             .toList();
     }
 
     @Override
-    public UserResponse getUserById(Long id) {
-        User user = userRepository.findById(id)
+    public UserDomain getUserById(Long id) {
+        UserEntity userEntity = userRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("User", id));
-        return userMapper.toResponse(user);
+        return userEntityMapper.toDomain(userEntity);
     }
 
     @Override
     @Transactional
-    public UserResponse updateUser(Long id, UserRequest request) {
-        User user = userRepository.findById(id)
+    public UserDomain updateUser(Long id, UserDomain userDomain) {
+        UserEntity existingEntity = userRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("User", id));
 
-        if (!user.getEmail().equals(request.email()) && userRepository.existsByEmail(request.email())) {
-            throw new DuplicateResourceException("Un utilisateur avec cet email existe déjà : " + request.email());
+        if (!existingEntity.getEmail().equals(userDomain.getEmail()) && userRepository.existsByEmail(userDomain.getEmail())) {
+            throw new DuplicateResourceException("Un utilisateur avec cet email existe déjà : " + userDomain.getEmail());
         }
 
-        userMapper.updateEntity(user, request);
-        User savedUser = userRepository.save(user);
-        return userMapper.toResponse(savedUser);
+        existingEntity.setFirstName(userDomain.getFirstName());
+        existingEntity.setLastName(userDomain.getLastName());
+        existingEntity.setEmail(userDomain.getEmail());
+        existingEntity.setPhone(userDomain.getPhone());
+
+        UserEntity updatedEntity = userRepository.save(existingEntity);
+        return userEntityMapper.toDomain(updatedEntity);
     }
 
     @Override

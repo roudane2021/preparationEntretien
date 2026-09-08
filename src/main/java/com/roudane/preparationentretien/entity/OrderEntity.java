@@ -1,6 +1,5 @@
-package com.roudane.preparationentretien.domain.order;
+package com.roudane.preparationentretien.entity;
 
-import com.roudane.preparationentretien.domain.user.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,7 +30,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Order {
+public class OrderEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,7 +38,7 @@ public class Order {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private UserEntity user;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -49,7 +48,7 @@ public class Order {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @Builder.Default
-    private List<OrderLine> orderLines = new ArrayList<>();
+    private List<OrderLineEntity> orderLines = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {
@@ -64,16 +63,21 @@ public class Order {
         recalculateTotal();
     }
 
-    public void addOrderLine(OrderLine orderLine) {
+    public void addOrderLine(OrderLineEntity orderLine) {
+        if (orderLines == null) {
+            orderLines = new ArrayList<>();
+        }
         orderLines.add(orderLine);
         orderLine.setOrder(this);
         recalculateTotal();
     }
 
-    public void removeOrderLine(OrderLine orderLine) {
-        orderLines.remove(orderLine);
-        orderLine.setOrder(null);
-        recalculateTotal();
+    public void removeOrderLine(OrderLineEntity orderLine) {
+        if (orderLines != null) {
+            orderLines.remove(orderLine);
+            orderLine.setOrder(null);
+            recalculateTotal();
+        }
     }
 
     public void recalculateTotal() {
@@ -83,7 +87,7 @@ public class Order {
         }
 
         this.totalAmount = orderLines.stream()
-            .map(OrderLine::getLineTotal)
+            .map(OrderLineEntity::getLineTotal)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

@@ -1,11 +1,10 @@
 package com.roudane.preparationentretien.service.order;
 
-import com.roudane.preparationentretien.domain.order.Order;
-import com.roudane.preparationentretien.domain.user.User;
-import com.roudane.preparationentretien.dto.order.OrderRequest;
-import com.roudane.preparationentretien.dto.order.OrderResponse;
+import com.roudane.preparationentretien.domain.order.OrderDomain;
+import com.roudane.preparationentretien.entity.OrderEntity;
+import com.roudane.preparationentretien.entity.UserEntity;
 import com.roudane.preparationentretien.exception.ResourceNotFoundException;
-import com.roudane.preparationentretien.mapper.OrderMapper;
+import com.roudane.preparationentretien.mapper.OrderEntityMapper;
 import com.roudane.preparationentretien.repository.OrderRepository;
 import com.roudane.preparationentretien.repository.UserRepository;
 import java.util.List;
@@ -20,31 +19,38 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
-    private final OrderMapper orderMapper;
+    private final OrderEntityMapper orderEntityMapper;
 
     @Override
     @Transactional
-    public OrderResponse createOrder(OrderRequest request) {
-        User user = userRepository.findById(request.userId())
-            .orElseThrow(() -> new ResourceNotFoundException("User", request.userId()));
+    public OrderDomain createOrder(OrderDomain orderDomain) {
+        Long userId = orderDomain.getUserId();
+        UserEntity userEntity = userRepository.findById(userId)
+            .orElseThrow(() -> new ResourceNotFoundException("User", userId));
 
-        Order order = orderMapper.toEntity(request, user);
-        Order savedOrder = orderRepository.save(order);
-        return orderMapper.toResponse(savedOrder);
+        OrderEntity orderEntity = orderEntityMapper.toEntity(orderDomain);
+        orderEntity.setUser(userEntity);
+
+        if (orderEntity.getOrderLines() != null) {
+            orderEntity.getOrderLines().forEach(line -> line.setOrder(orderEntity));
+        }
+
+        OrderEntity savedOrder = orderRepository.save(orderEntity);
+        return orderEntityMapper.toDomain(savedOrder);
     }
 
     @Override
-    public List<OrderResponse> getAllOrders() {
+    public List<OrderDomain> getAllOrders() {
         return orderRepository.findAll().stream()
-            .map(orderMapper::toResponse)
+            .map(orderEntityMapper::toDomain)
             .toList();
     }
 
     @Override
-    public OrderResponse getOrderById(Long id) {
-        Order order = orderRepository.findByIdWithDetails(id)
+    public OrderDomain getOrderById(Long id) {
+        OrderEntity orderEntity = orderRepository.findByIdWithDetails(id)
             .orElseThrow(() -> new ResourceNotFoundException("Order", id));
-        return orderMapper.toResponse(order);
+        return orderEntityMapper.toDomain(orderEntity);
     }
 
     @Override

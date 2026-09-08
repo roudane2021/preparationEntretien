@@ -1,18 +1,17 @@
 package com.roudane.preparationentretien.service.user;
 
-import com.roudane.preparationentretien.dto.user.UserRequest;
-import com.roudane.preparationentretien.dto.user.UserResponse;
+import com.roudane.preparationentretien.domain.user.UserDomain;
 import java.util.List;
 
 public interface UserService {
 
-    UserResponse createUser(UserRequest request);
+    UserDomain createUser(UserDomain userDomain);
 
-    List<UserResponse> getAllUsers();
+    List<UserDomain> getAllUsers();
 
-    UserResponse getUserById(Long id);
+    UserDomain getUserById(Long id);
 
-    UserResponse updateUser(Long id, UserRequest request);
+    UserDomain updateUser(Long id, UserDomain userDomain);
 
     void deleteUser(Long id);
 }

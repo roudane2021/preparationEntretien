@@ -1,16 +1,15 @@
 package com.roudane.preparationentretien.service.order;
 
-import com.roudane.preparationentretien.dto.order.OrderRequest;
-import com.roudane.preparationentretien.dto.order.OrderResponse;
+import com.roudane.preparationentretien.domain.order.OrderDomain;
 import java.util.List;
 
 public interface OrderService {
 
-    OrderResponse createOrder(OrderRequest request);
+    OrderDomain createOrder(OrderDomain orderDomain);
 
-    List<OrderResponse> getAllOrders();
+    List<OrderDomain> getAllOrders();
 
-    OrderResponse getOrderById(Long id);
+    OrderDomain getOrderById(Long id);
 
     void deleteOrder(Long id);
 }
