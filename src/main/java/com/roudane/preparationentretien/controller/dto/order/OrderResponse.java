@@ -1,4 +1,4 @@
-package com.roudane.preparationentretien.dto.order;
+package com.roudane.preparationentretien.controller.dto.order;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

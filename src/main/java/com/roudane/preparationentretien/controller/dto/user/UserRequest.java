@@ -1,4 +1,4 @@
-package com.roudane.preparationentretien.dto.user;
+package com.roudane.preparationentretien.controller.dto.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

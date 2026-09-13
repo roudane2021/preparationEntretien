@@ -1,4 +1,4 @@
-package com.roudane.preparationentretien.entity;
+package com.roudane.preparationentretien.repository.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,10 +1,10 @@
 package com.roudane.preparationentretien.service.order;
 
 import com.roudane.preparationentretien.domain.order.OrderDomain;
-import com.roudane.preparationentretien.entity.OrderEntity;
-import com.roudane.preparationentretien.entity.UserEntity;
+import com.roudane.preparationentretien.repository.entity.OrderEntity;
+import com.roudane.preparationentretien.repository.entity.UserEntity;
 import com.roudane.preparationentretien.exception.ResourceNotFoundException;
-import com.roudane.preparationentretien.mapper.OrderEntityMapper;
+import com.roudane.preparationentretien.service.mapper.OrderEntityMapper;
 import com.roudane.preparationentretien.repository.OrderRepository;
 import com.roudane.preparationentretien.repository.UserRepository;
 import java.util.List;
@@ -22,8 +22,8 @@ public class OrderServiceImpl implements OrderService {
     private final OrderEntityMapper orderEntityMapper;
 
     @Override
-    @Transactional
-    public OrderDomain createOrder(OrderDomain orderDomain) {
+    @Transactional(rollbackFor = Exception.class)
+    public OrderDomain createOrder(OrderDomain orderDomain) throws Exception {
         Long userId = orderDomain.getUserId();
         UserEntity userEntity = userRepository.findById(userId)
             .orElseThrow(() -> new ResourceNotFoundException("User", userId));
@@ -36,6 +36,10 @@ public class OrderServiceImpl implements OrderService {
         }
 
         OrderEntity savedOrder = orderRepository.save(orderEntity);
+
+        if(true) {
+            throw  new Exception("Test Exception");
+        }
         return orderEntityMapper.toDomain(savedOrder);
     }
 
@@ -45,6 +49,8 @@ public class OrderServiceImpl implements OrderService {
             .map(orderEntityMapper::toDomain)
             .toList();
     }
+
+
 
     @Override
     public OrderDomain getOrderById(Long id) {

@@ -1,8 +1,8 @@
-package com.roudane.preparationentretien.mapper;
+package com.roudane.preparationentretien.controller.mapper;
 
 import com.roudane.preparationentretien.domain.user.UserDomain;
-import com.roudane.preparationentretien.dto.user.UserRequest;
-import com.roudane.preparationentretien.dto.user.UserResponse;
+import com.roudane.preparationentretien.controller.dto.user.UserRequest;
+import com.roudane.preparationentretien.controller.dto.user.UserResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 

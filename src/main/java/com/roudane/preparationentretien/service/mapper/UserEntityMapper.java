@@ -1,7 +1,7 @@
-package com.roudane.preparationentretien.mapper;
+package com.roudane.preparationentretien.service.mapper;
 
 import com.roudane.preparationentretien.domain.user.UserDomain;
-import com.roudane.preparationentretien.entity.UserEntity;
+import com.roudane.preparationentretien.repository.entity.UserEntity;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

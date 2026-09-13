@@ -1,4 +1,4 @@
-package com.roudane.preparationentretien.domain.order;
+package com.roudane.preparationentretien.service.domain.order;
 
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;

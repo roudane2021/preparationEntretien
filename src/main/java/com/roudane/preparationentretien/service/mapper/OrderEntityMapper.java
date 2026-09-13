@@ -1,9 +1,9 @@
-package com.roudane.preparationentretien.mapper;
+package com.roudane.preparationentretien.service.mapper;
 
 import com.roudane.preparationentretien.domain.order.OrderDomain;
 import com.roudane.preparationentretien.domain.order.OrderLineDomain;
-import com.roudane.preparationentretien.entity.OrderEntity;
-import com.roudane.preparationentretien.entity.OrderLineEntity;
+import com.roudane.preparationentretien.repository.entity.OrderEntity;
+import com.roudane.preparationentretien.repository.entity.OrderLineEntity;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

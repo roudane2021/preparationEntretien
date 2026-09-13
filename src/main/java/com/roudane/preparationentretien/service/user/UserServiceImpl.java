@@ -1,10 +1,10 @@
 package com.roudane.preparationentretien.service.user;
 
 import com.roudane.preparationentretien.domain.user.UserDomain;
-import com.roudane.preparationentretien.entity.UserEntity;
+import com.roudane.preparationentretien.repository.entity.UserEntity;
 import com.roudane.preparationentretien.exception.DuplicateResourceException;
 import com.roudane.preparationentretien.exception.ResourceNotFoundException;
-import com.roudane.preparationentretien.mapper.UserEntityMapper;
+import com.roudane.preparationentretien.service.mapper.UserEntityMapper;
 import com.roudane.preparationentretien.repository.UserRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

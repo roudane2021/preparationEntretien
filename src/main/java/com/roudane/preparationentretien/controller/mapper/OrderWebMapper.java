@@ -1,11 +1,11 @@
-package com.roudane.preparationentretien.mapper;
+package com.roudane.preparationentretien.controller.mapper;
 
 import com.roudane.preparationentretien.domain.order.OrderDomain;
 import com.roudane.preparationentretien.domain.order.OrderLineDomain;
-import com.roudane.preparationentretien.dto.order.OrderLineRequest;
-import com.roudane.preparationentretien.dto.order.OrderLineResponse;
-import com.roudane.preparationentretien.dto.order.OrderRequest;
-import com.roudane.preparationentretien.dto.order.OrderResponse;
+import com.roudane.preparationentretien.controller.dto.order.OrderLineRequest;
+import com.roudane.preparationentretien.controller.dto.order.OrderLineResponse;
+import com.roudane.preparationentretien.controller.dto.order.OrderRequest;
+import com.roudane.preparationentretien.controller.dto.order.OrderResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;

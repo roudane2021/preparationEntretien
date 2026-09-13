@@ -1,6 +1,6 @@
 package com.roudane.preparationentretien.repository;
 
-import com.roudane.preparationentretien.entity.UserEntity;
+import com.roudane.preparationentretien.repository.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,9 +1,9 @@
 package com.roudane.preparationentretien.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.roudane.preparationentretien.dto.order.OrderLineRequest;
-import com.roudane.preparationentretien.dto.order.OrderRequest;
-import com.roudane.preparationentretien.dto.user.UserRequest;
+import com.roudane.preparationentretien.controller.dto.order.OrderLineRequest;
+import com.roudane.preparationentretien.controller.dto.order.OrderRequest;
+import com.roudane.preparationentretien.controller.dto.user.UserRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

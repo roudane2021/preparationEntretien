@@ -1,9 +1,10 @@
 package com.roudane.preparationentretien.controller;
 
-import com.roudane.preparationentretien.domain.order.OrderDomain;
-import com.roudane.preparationentretien.dto.order.OrderRequest;
-import com.roudane.preparationentretien.dto.order.OrderResponse;
-import com.roudane.preparationentretien.mapper.OrderWebMapper;
+
+import com.roudane.preparationentretien.controller.dto.order.OrderRequest;
+import com.roudane.preparationentretien.controller.dto.order.OrderResponse;
+import com.roudane.preparationentretien.controller.mapper.OrderWebMapper;
+import com.roudane.preparationentretien.service.domain.order.OrderDomain;
 import com.roudane.preparationentretien.service.order.OrderService;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -34,6 +35,7 @@ public class OrderController {
         return ResponseEntity.ok(orders);
     }
 
+
     @GetMapping("/{id}")
     public ResponseEntity<OrderResponse> getOrderById(@PathVariable Long id) {
         OrderDomain domain = orderService.getOrderById(id);
@@ -41,7 +43,7 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<OrderResponse> createOrder(@Valid @RequestBody OrderRequest request) {
+    public ResponseEntity<OrderResponse> createOrder(@Valid @RequestBody OrderRequest request)throws Exception {
         OrderDomain domainToCreate = orderWebMapper.toDomain(request);
         domainToCreate.setUserId(request.userId());
         OrderDomain createdDomain = orderService.createOrder(domainToCreate);

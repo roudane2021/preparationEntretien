@@ -1,9 +1,9 @@
 package com.roudane.preparationentretien.controller;
 
 import com.roudane.preparationentretien.domain.user.UserDomain;
-import com.roudane.preparationentretien.dto.user.UserRequest;
-import com.roudane.preparationentretien.dto.user.UserResponse;
-import com.roudane.preparationentretien.mapper.UserWebMapper;
+import com.roudane.preparationentretien.controller.dto.user.UserRequest;
+import com.roudane.preparationentretien.controller.dto.user.UserResponse;
+import com.roudane.preparationentretien.controller.mapper.UserWebMapper;
 import com.roudane.preparationentretien.service.user.UserService;
 import jakarta.validation.Valid;
 import java.util.List;

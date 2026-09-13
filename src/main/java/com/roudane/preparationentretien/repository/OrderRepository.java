@@ -1,6 +1,6 @@
 package com.roudane.preparationentretien.repository;
 
-import com.roudane.preparationentretien.entity.OrderEntity;
+import com.roudane.preparationentretien.repository.entity.OrderEntity;
 import jakarta.annotation.Nonnull;
 import java.util.List;
 import java.util.Optional;
